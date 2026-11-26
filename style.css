@@ -41,3 +41,6 @@ p{margin:0;color:var(--mut);line-height:1.4}
 .rdot{width:26px;height:26px;border-radius:50%;border:2px solid var(--bd);display:flex;align-items:center;justify-content:center;font-size:.8rem;color:#fff}
 .rdot.on{background:var(--bad);border-color:var(--bad)}
 .btn.sm{width:64px;flex:none}
+.grp{width:100%;padding:12px;border-radius:14px;border:1px solid var(--bd);background:var(--card)}
+.grp .gl{font-size:.85rem;font-weight:700;color:var(--mut);margin-bottom:10px}
+.grp .none{color:var(--mut);font-size:.9rem}

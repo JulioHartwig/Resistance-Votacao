@@ -76,7 +76,7 @@ function render(){
   h('<h1>✅ Todos votaram</h1><p>Quando o grupo estiver pronto, revele o resultado.</p><button class="btn" id="rv">Revelar resultado</button>');
   $('rv').onclick=function(){
    var fails=st.votes.filter(function(v){return v==='f'}).length;
-   st.last={ok:fails<1,fails:fails,cards:st.votes.slice().sort(function(){return Math.random()-.5}),n:cur()+1};
+   st.last={ok:fails<1,fails:fails,succ:st.votes.length-fails,n:cur()+1};
    st.missions[cur()]=st.last.ok?'s':'f';
    st.refusals=0;
    save();st.step='result';render();
@@ -84,9 +84,13 @@ function render(){
  }
  else if(st.step==='result'){
   var r=st.last;
-  var cards=r.cards.map(function(v){return '<div class="card '+v+'">'+(v==='s'?'✔':'✖')+'</div>'}).join('');
+  function grp(cls,ico,label,n){
+   var c='';for(var k=0;k<n;k++)c+='<div class="card '+cls+'">'+ico+'</div>';
+   return '<div class="grp"><div class="gl">'+label+': '+n+'</div><div class="cards">'+(n?c:'<span class="none">nenhuma</span>')+'</div></div>';
+  }
   h('<p>Missão '+r.n+'</p><div class="res '+(r.ok?'s':'f')+'"><div class="big">'+(r.ok?'SUCESSO':'FALHA')+'</div><p style="color:#fff">'+r.fails+(r.fails===1?' voto de falha':' votos de falha')+'</p></div>'+
-   '<div class="cards">'+cards+'</div><p>As cartas foram embaralhadas para não revelar a ordem.</p>'+
+   grp('s','✔','Cartas de sucesso',r.succ)+grp('f','✖','Cartas de falha',r.fails)+
+   '<p>As cartas aparecem agrupadas, sem ordem, para não revelar quem votou o quê.</p>'+
    '<button class="btn" id="bk">'+(over()?'Ver resultado final':'Voltar ao placar')+'</button>');
   $('bk').onclick=function(){st.step='board';render()};
  }
